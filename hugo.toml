@@ -5,6 +5,7 @@ theme = "hextra"
 preserveTaxonomyNames = true
 disablePathToLower    = true
 hasCJKLanguage        = true
+enableGitInfo         = true
 publishDir            = "public"				# 站点静态文件保存目录
 
 # 必须开启，用于生成全站搜索索引
@@ -35,6 +36,13 @@ publishDir            = "public"				# 站点静态文件保存目录
     name = "云原生 & DevOps"
     url = "/cloud-native/"
     weight = 3
+
+  [[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/cold-rivers-snow/web"
+    weight = 100
+    [menu.main.params]
+      icon = "github"
 
 [params]
   description = "记录 C++, Rust, K8s, OS 的学习与成长"
