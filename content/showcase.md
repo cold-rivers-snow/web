@@ -27,8 +27,8 @@ menu:
 
 适合展示多语言代码或不同系统的操作指令。
 
-{{< tabs items=["C++", "Rust", "Python"] >}}
-  {{< tab >}}
+{{< tabs >}}
+  {{< tab name="C++" >}}
   ```cpp
   #include <iostream>
   int main() {
@@ -37,14 +37,14 @@ menu:
   }
   ```
   {{< /tab >}}
-  {{< tab >}}
+  {{< tab name="Rust" >}}
   ```rust
   fn main() {
       println!("Hello, Hextra!");
   }
   ```
   {{< /tab >}}
-  {{< tab >}}
+  {{< tab name="Python" >}}
   ```python
   print("Hello, Hextra!")
   ```
