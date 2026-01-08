@@ -6,6 +6,7 @@ preserveTaxonomyNames = true
 disablePathToLower    = true
 hasCJKLanguage        = true
 enableGitInfo         = true
+canonifyURLs          = true
 publishDir            = "public"				# 站点静态文件保存目录
 
 # 必须开启，用于生成全站搜索索引
