@@ -49,7 +49,7 @@ publishDir            = "public"				# 站点静态文件保存目录
   [params.navbar]
     displayTitle = true
     [params.navbar.logo]
-      path = "/images/logo.svg"
+      path = "images/logo.svg"
       link = "/"
 
   [params.footer]
