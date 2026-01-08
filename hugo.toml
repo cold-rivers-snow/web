@@ -1,0 +1,64 @@
+baseURL = "https://cold-rivers-snow.github.io/web/"
+title = "寒江雪的技术图谱"
+languageCode = "zh-cn"
+theme = "hextra"
+preserveTaxonomyNames = true
+disablePathToLower    = true
+hasCJKLanguage        = true
+publishDir            = "public"				# 站点静态文件保存目录
+
+# 必须开启，用于生成全站搜索索引
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.highlight]
+    noClasses = false  # Hextra 代码高亮需要此配置
+
+[menu]
+  # --- 顶部导航栏规划 ---
+  
+  [[menu.main]]
+    identifier = "languages"
+    name = "编程语言"
+    url = "/languages/"
+    weight = 1
+  
+  [[menu.main]]
+    identifier = "cs-basics"
+    name = "CS 基础"
+    url = "/cs-basics/"
+    weight = 2
+  
+  [[menu.main]]
+    identifier = "cloud-native"
+    name = "云原生 & DevOps"
+    url = "/cloud-native/"
+    weight = 3
+
+[params]
+  description = "记录 C++, Rust, K8s, OS 的学习与成长"
+
+  # 侧边栏宽度
+  sidebarWidth = "16rem"
+  
+  # 开启全站搜索 (Hextra 的搜索非常快)
+  [params.search]
+    enable = true
+
+  [params.navbar]
+    displayTitle = true
+    [params.navbar.logo]
+      path = "/images/logo.svg"
+      link = "/"
+      width = "20"
+      height = "20"
+
+  [params.footer]
+    enable = true
+    content = "Stay Hungry, Stay Foolish. | Powered by Hextra"
+
+  # 开启“在 GitHub 上编辑此页”功能
+  [params.editURL]
+    enable = true
+    baseURL = "https://github.com/cold-rivers-snow/web/edit/main/content"
