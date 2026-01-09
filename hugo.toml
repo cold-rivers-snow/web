@@ -11,7 +11,7 @@ publishDir            = "public"				# 站点静态文件保存目录
 
 # 必须开启，用于生成全站搜索索引
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS"]
 
 [markup]
   [markup.highlight]
@@ -39,11 +39,21 @@ publishDir            = "public"				# 站点静态文件保存目录
     weight = 3
 
   [[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/cold-rivers-snow/web"
-    weight = 100
+    identifier = "log"
+    name = "更新日志"
+    url = "/log/"
+    weight = 90
     [menu.main.params]
-      icon = "github"
+      icon = "book-open"
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "博客"
+    url = "https://cold-rivers-snow.github.io/"
+    weight = 110
+    [menu.main.params]
+      icon = "github" # Using github icon for blog for now
+      external = true
 
 [params]
   description = "记录 C++, Rust, K8s, OS 的学习与成长"
@@ -54,6 +64,8 @@ publishDir            = "public"				# 站点静态文件保存目录
   # 开启全站搜索 (Hextra 的搜索非常快)
   [params.search]
     enable = true
+    [params.search.flexsearch]
+      tokenize = "cjk"
 
   [params.navbar]
     displayTitle = true

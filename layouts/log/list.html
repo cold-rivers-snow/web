@@ -1,0 +1,27 @@
+{{ define "main" }}
+  <div class='hx:mx-auto hx:flex hextra-max-page-width'>
+    {{ partial "sidebar.html" . }} {# Assuming Hextra's sidebar #}
+    <main class="hx:w-full hx:min-w-0 hx:max-w-6xl hx:px-6 hx:pt-4 hx:md:px-12">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }} {# Show content from _index.md #}
+
+      <ul class="hx:mt-8">
+        {{ range .Site.RegularPages.ByLastmod.Reverse }}
+          {{ if .GitInfo }}
+            <li class="hx:mb-4 hx:p-4 hx:border hx:rounded-lg hx:shadow-sm">
+              <a href="{{ .RelPermalink }}" class="hx:text-xl hx:font-bold hx:text-blue-600 hx:hover:underline">
+                {{ .Title }}
+              </a>
+              <div class="hx:text-sm hx:text-gray-500">
+                更新日期: {{ .Lastmod.Format "2006-01-02 15:04" }}
+              </div>
+              <div class="hx:text-sm hx:text-gray-700">
+                提交信息: {{ .GitInfo.Subject }}
+              </div>
+            </li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    </main>
+  </div>
+{{ end }}
