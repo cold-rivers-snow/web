@@ -1,6 +1,6 @@
 {{ define "main" }}
   <div class='hx:mx-auto hx:flex hextra-max-page-width'>
-    {{ partial "sidebar.html" . }} {# Assuming Hextra's sidebar #}
+    {{ partial "sidebar.html" (dict "context" . "disableSidebar" false "displayPlaceholder" false) }} {# Assuming Hextra's sidebar #}
     <main class="hx:w-full hx:min-w-0 hx:max-w-6xl hx:px-6 hx:pt-4 hx:md:px-12">
       <h1>{{ .Title }}</h1>
       {{ .Content }} {# Show content from _index.md #}
