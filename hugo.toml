@@ -6,8 +6,9 @@ preserveTaxonomyNames = true
 disablePathToLower    = true
 hasCJKLanguage        = true
 enableGitInfo         = true
-canonifyURLs          = true
+canonifyURLs          = false
 publishDir            = "public"				# 站点静态文件保存目录
+uglyURLs              = false
 
 # 必须开启，用于生成全站搜索索引
 [outputs]
@@ -19,6 +20,13 @@ publishDir            = "public"				# 站点静态文件保存目录
 
 [menu]
   # --- 顶部导航栏规划 ---
+  
+  [[menu.main]]
+    identifier = "search"
+    name = "搜索"
+    weight = 0
+    [menu.main.params]
+      type = "search"
   
   [[menu.main]]
     identifier = "languages"
@@ -71,7 +79,16 @@ publishDir            = "public"				# 站点静态文件保存目录
   [params.search]
     enable = true
     [params.search.flexsearch]
-      tokenize = "cjk"
+      tokenize = "forward"
+
+# 服务器配置
+[server]
+  [[server.headers]]
+    for = "/**"
+    [server.headers.values]
+      X-Frame-Options = "DENY"
+      X-XSS-Protection = "1; mode=block"
+      X-Content-Type-Options = "nosniff"
 
   [params.navbar]
     displayTitle = true
