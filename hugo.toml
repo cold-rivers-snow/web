@@ -37,6 +37,12 @@ publishDir            = "public"				# 站点静态文件保存目录
     name = "云原生 & DevOps"
     url = "/cloud-native/"
     weight = 3
+  
+  [[menu.main]]
+    identifier = "blog"
+    name = "博客"
+    url = "https://cold-rivers-snow.github.io/"
+    weight = 4
 
   [[menu.main]]
     identifier = "log"
@@ -47,12 +53,12 @@ publishDir            = "public"				# 站点静态文件保存目录
       icon = "book-open"
 
   [[menu.main]]
-    identifier = "blog"
-    name = "博客"
-    url = "https://cold-rivers-snow.github.io/"
+    identifier = "github"
+    name = "GitHub"
+    url = "https://github.com/cold-rivers-snow/web"
     weight = 110
     [menu.main.params]
-      icon = "github" # Using github icon for blog for now
+      icon = "github"
       external = true
 
 [params]
