@@ -15,6 +15,8 @@ uglyURLs              = false
   home = ["HTML", "RSS"]
 
 [markup]
+  [markup.goldmark.renderer]
+    unsafe = true
   [markup.highlight]
     noClasses = false  # Hextra 代码高亮需要此配置
 
@@ -41,9 +43,9 @@ uglyURLs              = false
     weight = 2
   
   [[menu.main]]
-    identifier = "cloud-native"
-    name = "云原生 & DevOps"
-    url = "/cloud-native/"
+    identifier = "industry"
+    name = "行业方向"
+    url = "/industry/"
     weight = 3
   
   [[menu.main]]
@@ -51,6 +53,26 @@ uglyURLs              = false
     name = "博客"
     url = "https://cold-rivers-snow.github.io/"
     weight = 4
+
+  [[menu.main]]
+    identifier = "friends"
+    name = "友链"
+    url = "/friends/"
+    weight = 5
+
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 6
+
+  [[menu.main]]
+    identifier = "rss"
+    name = "RSS"
+    url = "/index.xml"
+    weight = 7
+    [menu.main.params]
+      icon = "rss"
 
   [[menu.main]]
     identifier = "log"
@@ -70,7 +92,7 @@ uglyURLs              = false
       external = true
 
 [params]
-  description = "记录 C++, Rust, K8s, OS 的学习与成长"
+  description = "记录寒江雪的学习与成长"
 
   # 侧边栏宽度
   sidebarWidth = "16rem"

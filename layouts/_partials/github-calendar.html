@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="https://unpkg.com/github-calendar@latest/dist/github-calendar-responsive.css" />
+<style>
+  .calendar {
+      width: 100%;
+      border: none !important;
+      min-height: 120px;
+  }
+  .calendar .width-full > .float-left {
+      display: none;
+  }
+  .calendar .width-full > .float-right {
+      display: none;
+  }
+  /* Dark mode adjustments */
+  html.dark .calendar {
+      color: #adbac7;
+  }
+  html.dark .calendar .ContributionCalendar-day[data-level="0"] {
+      fill: #2d333b; /* Dark mode empty cell */
+      background-color: #2d333b;
+  }
+  html.dark .calendar text.ContributionCalendar-label {
+      fill: #adbac7;
+  }
+  /* Hide the text below the graph to make it cleaner */
+  .calendar .contrib-footer {
+      display: none;
+  }
+</style>
+
+<div class="calendar">
+    Loading the data just for you.
+</div>
+
+<script src="https://unpkg.com/github-calendar@latest/dist/github-calendar.min.js"></script>
+<script>
+    GitHubCalendar(".calendar", "{{ .username }}", {
+        responsive: true,
+        tooltips: true
+    });
+</script>

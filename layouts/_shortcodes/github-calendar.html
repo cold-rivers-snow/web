@@ -1,0 +1,2 @@
+{{ $username := .Get "username" }}
+{{ partial "github-calendar.html" (dict "username" $username) }}
