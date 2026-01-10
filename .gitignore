@@ -4,4 +4,5 @@ hugo.exe
 .hugo_build.lock
 example.md
 hugo
-./kiro/
+.kiro/
+.vscode/

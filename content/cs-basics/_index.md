@@ -3,7 +3,5 @@ title: "CS 基础"
 icon: "cpu-chip"
 cascade:
   type: docs
-  sidebar:
-    disable: true
-  toc: false
+  toc: true
 ---

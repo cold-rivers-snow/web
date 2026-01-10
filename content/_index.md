@@ -16,24 +16,24 @@ layout: hextra-home
 </div>
 
 <div class="hx:mb-12">
-{{< hextra/hero-button text="查看知识图谱" link="/languages/" >}}
+{{< hextra/hero-button text="查看知识图谱" link="/web/languages/" >}}
 </div>
 
 {{< hextra/feature-grid cols="3" >}}
   {{< hextra/feature-card
     title="编程语言"
     subtitle="语言知识点记录。"
-    link="/languages/"
+    link="/web/languages/"
   >}}
   {{< hextra/feature-card
     title="CS 基础"
     subtitle="CS 基础知识点记录。"
-    link="/cs-basics/"
+    link="/web/cs-basics/"
   >}}
   {{< hextra/feature-card
     title="行业方向"
     subtitle="行业方向知识点记录。"
-    link="/industry/"
+    link="/web/industry/"
   >}}
   {{< hextra/feature-card
     title="博客"
@@ -48,6 +48,6 @@ layout: hextra-home
   {{< hextra/feature-card
     title="关于"
     subtitle="了解更多关于寒江雪的故事与建站初衷。"
-    link="/about/"
+    link="/web/about/"
   >}}
 {{< /hextra/feature-grid >}}

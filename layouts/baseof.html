@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Lang }}" dir="{{ .Site.Language.LanguageDirection | default `ltr` }}">
   {{- partial "head.html" . -}}
-  <body class="hx:flex hx:flex-col hx:min-h-screen">
+  <body class="hx:flex hx:flex-col hx:min-h-[100vh]">
     {{- partial "banner.html" . -}}
     {{- partial "navbar.html" . -}}
-    <main class="hx:flex-1">
+    <div class="hx:flex hx:flex-col hx:flex-1">
       {{- block "main" . }}{{ end -}}
-    </main>
-    {{- if or (eq .Site.Params.footer.enable nil) (.Site.Params.footer.enable) }}
-      {{ partial "footer.html" . }}
-    {{ end }}
+      {{- if or (eq .Site.Params.footer.enable nil) (.Site.Params.footer.enable) }}
+        {{ partial "footer.html" . }}
+      {{ end }}
+    </div>
     {{ partial "scripts.html" . }}
   </body>
 </html>
