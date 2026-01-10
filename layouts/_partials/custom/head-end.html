@@ -1,0 +1,172 @@
+{{/* 自定义CSS和JavaScript */}}
+<style>
+/* 确保页脚始终在页面底部 */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.hextra-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+/* 主页特殊处理 */
+.hextra-home main {
+  flex: 1;
+}
+
+/* 响应式设计 - 确保在不同屏幕尺寸下都能正常显示 */
+@media (max-width: 768px) {
+  .hextra-footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .hextra-footer .hextra-max-footer-width {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hextra-footer {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .hextra-footer .hextra-max-footer-width {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* 页面导航样式优化 */
+.page-navigation {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 2rem;
+  margin-top: 3rem;
+}
+
+.dark .page-navigation {
+  border-top-color: #374151;
+}
+
+.page-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  min-height: 80px;
+}
+
+.dark .page-nav-link {
+  border-color: #374151;
+  background-color: #1f2937;
+}
+
+.page-nav-link:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .page-nav-link:hover {
+  background-color: #374151;
+  border-color: #4b5563;
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+.page-nav-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.page-nav-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.dark .page-nav-label {
+  color: #9ca3af;
+}
+
+.page-nav-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.dark .page-nav-title {
+  color: #f9fafb;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  .page-navigation {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+  
+  .page-nav-link {
+    padding: 1rem;
+    min-height: 70px;
+  }
+  
+  .page-nav-title {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-nav-link {
+    padding: 0.875rem;
+    gap: 0.5rem;
+  }
+  
+  .page-nav-title {
+    font-size: 0.8rem;
+  }
+  
+  .page-nav-label {
+    font-size: 0.7rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* 确保内容区域有足够的最小高度 */
+.hx\:min-h-\[calc\(100vh-var\(--navbar-height\)\)\] {
+  min-height: calc(100vh - var(--navbar-height, 64px));
+}
+
+/* 修复可能的布局问题 */
+.hextra-home .hx\:min-h-screen {
+  min-height: 100vh;
+}
+</style>

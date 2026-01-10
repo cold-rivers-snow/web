@@ -97,6 +97,10 @@ uglyURLs              = false
   # 侧边栏宽度
   sidebarWidth = "16rem"
   
+  # 自定义CSS
+  [params.theme]
+    displayToggle = true
+  
   # 开启全站搜索 (Hextra 的搜索非常快)
   [params.search]
     enable = true

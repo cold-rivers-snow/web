@@ -1,0 +1,33 @@
+{{- $prev := .PrevInSection -}}
+{{- $next := .NextInSection -}}
+{{- if or $prev $next -}}
+<nav class="page-navigation hx:mx-auto hx:max-w-6xl hx:px-6 hx:md:px-12 hx:pb-8">
+  <div class="hx:grid hx:grid-cols-1 hx:md:grid-cols-2 hx:gap-4">
+    {{- if $prev -}}
+    <a href="{{ $prev.RelPermalink }}" class="page-nav-link hx:text-gray-600 hx:dark:text-gray-400 hx:hover:text-gray-800 hx:dark:hover:text-gray-200">
+      <svg class="hx:w-5 hx:h-5 hx:flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      <div class="page-nav-content">
+        <span class="page-nav-label">上一页</span>
+        <span class="page-nav-title" title="{{ $prev.Title }}">{{ $prev.Title }}</span>
+      </div>
+    </a>
+    {{- else -}}
+    <div class="hx:hidden hx:md:block"></div>
+    {{- end -}}
+    
+    {{- if $next -}}
+    <a href="{{ $next.RelPermalink }}" class="page-nav-link hx:text-gray-600 hx:dark:text-gray-400 hx:hover:text-gray-800 hx:dark:hover:text-gray-200 hx:justify-end hx:text-right">
+      <div class="page-nav-content hx:items-end">
+        <span class="page-nav-label">下一页</span>
+        <span class="page-nav-title" title="{{ $next.Title }}">{{ $next.Title }}</span>
+      </div>
+      <svg class="hx:w-5 hx:h-5 hx:flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </a>
+    {{- end -}}
+  </div>
+</nav>
+{{- end -}}
