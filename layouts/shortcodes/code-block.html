@@ -1,0 +1,33 @@
+{{/* 简单代码块 shortcode */}}
+{{- $url := .Get "url" -}}
+{{- $lang := .Get "lang" | default "text" -}}
+{{- $title := .Get "title" | default "" -}}
+
+{{- if not $url -}}
+  <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+    <p class="text-red-800 font-semibold">❌ 错误：缺少 URL 参数</p>
+  </div>
+{{- else -}}
+  <div class="code-block-simple mb-6">
+    {{- if $title -}}
+      <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-t-lg border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $title }}</h4>
+          <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" 
+             class="text-xs text-blue-600 dark:text-blue-400 hover:underline">
+            查看源文件 ↗
+          </a>
+        </div>
+      </div>
+    {{- end -}}
+    
+    <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+      <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">
+        📄 代码文件：<code class="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded text-xs">{{ $url }}</code>
+      </p>
+      <p class="text-gray-500 dark:text-gray-500 text-sm">
+        💡 点击上方链接查看完整代码内容
+      </p>
+    </div>
+  </div>
+{{- end -}}

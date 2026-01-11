@@ -62,3 +62,10 @@ scores["Bob"] = 87;
 
 > [!TIP]
 > 使用 `unordered_map` 可以获得更好的查找性能，但不保证顺序。
+
+## 实战示例
+
+### 优先队列实现
+以下是一个完整的优先队列实现示例：
+
+{{< remote-code url="https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/priority_queue.cpp" lang="cpp" title="优先队列完整实现" >}}

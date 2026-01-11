@@ -220,6 +220,86 @@
   height: 60%;
   opacity: 0.3;
 }
+
+/* 远程代码折叠功能样式 */
+.code-content-wrapper {
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.code-content-wrapper.collapsed {
+  max-height: 300px;
+}
+
+.code-content-wrapper.expanded {
+  max-height: none;
+}
+
+/* 修复代码行间距过大的问题 - 使用更紧凑的样式 */
+.remote-code-container .highlight,
+.remote-code-container .highlight pre,
+.remote-code-container .chroma,
+.remote-code-container .chroma .line,
+.remote-code-container .chroma .line .cl,
+.remote-code-container .code-content {
+  line-height: 1.2 !important;
+}
+
+.remote-code-container .chroma .line,
+.remote-code-container .chroma .line .cl {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+.remote-code-container .highlight pre {
+  padding: 45px 1rem 1rem 1rem !important;
+  line-height: 1.2 !important;
+}
+
+.code-collapse-container {
+  z-index: 10;
+}
+
+.code-collapse-btn {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  min-width: 40px !important;
+  text-align: center !important;
+}
+
+.code-collapse-btn:hover {
+  background-color: rgba(59, 130, 246, 0.25) !important;
+  border-color: rgba(59, 130, 246, 0.4) !important;
+}
+
+.code-collapse-btn .expand-icon,
+.code-collapse-btn .collapse-icon {
+  color: rgba(59, 130, 246, 0.8) !important;
+  font-weight: 600 !important;
+}
+
+/* 为折叠状态添加视觉提示 */
+.code-content-wrapper.collapsed {
+  border-bottom: 2px dashed rgba(59, 130, 246, 0.3);
+}
+
+/* 渐变遮罩效果 */
+.code-content-wrapper.collapsed::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, rgba(248, 249, 250, 0.95));
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .code-content-wrapper.collapsed::after {
+  background: linear-gradient(transparent, rgba(13, 17, 23, 0.95));
+}
 </style>
 
 <script>
@@ -277,11 +357,11 @@ function handleTOCClick(event, link) {
   }
 }
 
-// 页面加载时恢复状态
+// 页面加载时恢复状态和加载远程代码
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM loaded, restoring TOC states');
+  console.log('DOM loaded, restoring TOC states and loading remote code');
   
-  // 检查是否有TOC sections
+  // TOC 状态恢复
   const sections = document.querySelectorAll('.toc-section');
   console.log('Found TOC sections:', sections.length);
   
@@ -301,6 +381,15 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Restored collapsed state for', sectionId);
     }
   });
+  
+  // 远程代码加载
+  console.log('Remote code JavaScript loaded');
+  const containers = document.querySelectorAll('.remote-code-container');
+  console.log('Found remote code containers:', containers.length);
+  
+  containers.forEach(container => {
+    loadRemoteCodeContent(container);
+  });
 });
 
 // 现有的滚动到顶部功能
@@ -319,4 +408,231 @@ window.addEventListener('scroll', function() {
     }
   }
 });
+
+// 远程代码加载功能 - 简化版本
+async function loadRemoteCodeContent(container) {
+  const url = container.dataset.url;
+  const lang = container.dataset.lang || 'text';
+  
+  console.log('Loading remote code from:', url);
+  
+  const loadingState = container.querySelector('.loading-state');
+  const errorState = container.querySelector('.error-state');
+  const codeDisplay = container.querySelector('.code-display');
+  const codeContent = container.querySelector('.code-content');
+  const errorMessage = container.querySelector('.error-message');
+  
+  if (!loadingState || !errorState || !codeDisplay || !codeContent || !errorMessage) {
+    console.error('Missing required elements in container');
+    return;
+  }
+  
+  try {
+    console.log('开始加载代码:', url);
+    
+    // 尝试直接获取
+    let response;
+    try {
+      response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+    } catch (directError) {
+      console.log('直接获取失败，尝试使用代理...');
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      response = await fetch(proxyUrl);
+      if (!response.ok) {
+        throw new Error(`代理请求失败: HTTP ${response.status}`);
+      }
+    }
+    
+    let codeText = await response.text();
+    console.log('Code text length:', codeText.length);
+    
+    // 基本清理
+    codeText = codeText.replace(/^\uFEFF/, ''); // 移除 BOM
+    codeText = codeText.replace(/\r\n/g, '\n').replace(/\r/g, '\n'); // 统一换行符
+    
+    if (!codeText.trim()) {
+      throw new Error('代码内容为空');
+    }
+    
+    // 将代码按行分割并包装成Hextra的格式
+    const codeLines = codeText.split('\n');
+    const formattedCode = codeLines.map((line, index) => {
+      const escapedLine = line
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+      
+      return `<span class="line"><span class="cl">${escapedLine}</span></span>`;
+    }).join('\n');
+    
+    // 显示代码
+    codeContent.innerHTML = formattedCode;
+    codeContent.setAttribute('data-raw-code', codeText);
+    
+    // 直接设置行间距样式 - 更紧凑的样式，并调整padding
+    setTimeout(() => {
+      const lines = codeContent.querySelectorAll('.line');
+      const pre = codeContent.closest('pre');
+      const highlight = codeContent.closest('.highlight');
+      
+      // 设置整体容器样式 - 更紧凑，顶部padding为按钮留空间
+      if (pre) {
+        pre.style.setProperty('line-height', '1.2', 'important');
+        pre.style.setProperty('padding', '45px 1rem 1rem 1rem', 'important');
+      }
+      
+      if (highlight) {
+        highlight.style.setProperty('line-height', '1.2', 'important');
+      }
+      
+      // 设置每一行的样式 - 更紧凑
+      lines.forEach(line => {
+        line.style.setProperty('line-height', '1.2', 'important');
+        line.style.setProperty('margin', '0', 'important');
+        line.style.setProperty('padding', '0', 'important');
+        line.style.setProperty('display', 'block', 'important');
+        
+        const cl = line.querySelector('.cl');
+        if (cl) {
+          cl.style.setProperty('line-height', '1.2', 'important');
+          cl.style.setProperty('display', 'block', 'important');
+          cl.style.setProperty('margin', '0', 'important');
+          cl.style.setProperty('padding', '0', 'important');
+        }
+      });
+      
+      // 设置code元素本身的样式
+      codeContent.style.setProperty('line-height', '1.2', 'important');
+      codeContent.style.setProperty('display', 'block', 'important');
+    }, 50);
+    
+    // 检查代码行数，如果超过20行则显示折叠功能
+    const lineCount = codeLines.length;
+    const collapseContainer = codeDisplay.querySelector('.code-collapse-container');
+    const contentWrapper = codeDisplay.querySelector('.code-content-wrapper');
+    
+    if (lineCount > 20 && collapseContainer && contentWrapper) {
+      // 显示折叠控制
+      collapseContainer.classList.remove('hidden');
+      
+      // 初始状态为折叠
+      contentWrapper.classList.add('collapsed');
+      contentWrapper.style.position = 'relative';
+      
+      // 添加折叠按钮事件
+      const collapseBtn = codeDisplay.querySelector('.code-collapse-btn');
+      if (collapseBtn) {
+        collapseBtn.addEventListener('click', function() {
+          const isCollapsed = contentWrapper.classList.contains('collapsed');
+          const expandIcon = collapseBtn.querySelector('.expand-icon');
+          const collapseIcon = collapseBtn.querySelector('.collapse-icon');
+          
+          if (isCollapsed) {
+            // 展开
+            contentWrapper.classList.remove('collapsed');
+            contentWrapper.classList.add('expanded');
+            expandIcon.classList.add('hidden');
+            collapseIcon.classList.remove('hidden');
+            collapseBtn.title = '折叠代码';
+          } else {
+            // 折叠
+            contentWrapper.classList.remove('expanded');
+            contentWrapper.classList.add('collapsed');
+            expandIcon.classList.remove('hidden');
+            collapseIcon.classList.add('hidden');
+            collapseBtn.title = '展开代码';
+          }
+        });
+        
+        // 设置初始状态 - 折叠时显示展开图标
+        const expandIcon = collapseBtn.querySelector('.expand-icon');
+        const collapseIcon = collapseBtn.querySelector('.collapse-icon');
+        expandIcon.classList.remove('hidden');
+        collapseIcon.classList.add('hidden');
+        collapseBtn.title = '展开代码';
+      }
+    }
+    
+    // 切换显示状态
+    loadingState.style.display = 'none';
+    errorState.style.display = 'none';
+    codeDisplay.style.display = 'block';
+    
+    // 添加复制按钮
+    setTimeout(() => {
+      const codeBlock = codeDisplay.querySelector('.hextra-code-block');
+      if (codeBlock && !codeBlock.querySelector('.hextra-code-copy-btn-container')) {
+        addCopyButton(codeBlock, codeContent);
+      }
+    }, 100);
+    
+    console.log('代码加载成功');
+    
+  } catch (error) {
+    console.error('代码加载失败:', error);
+    
+    loadingState.style.display = 'none';
+    codeDisplay.style.display = 'none';
+    errorState.style.display = 'block';
+    errorMessage.textContent = `错误: ${error.message}`;
+  }
+}
+
+function addCopyButton(codeBlock, codeContent) {
+  console.log('Adding copy button');
+  
+  const copyContainer = document.createElement('div');
+  copyContainer.className = 'hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0';
+  
+  const copyButton = document.createElement('button');
+  copyButton.className = 'hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50';
+  copyButton.title = 'Copy code';
+  
+  // 添加图标
+  copyButton.innerHTML = `
+    <div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+      </svg>
+    </div>
+    <div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+  `;
+  
+  // 添加复制功能
+  copyButton.addEventListener('click', function() {
+    const rawCode = codeContent.getAttribute('data-raw-code') || codeContent.textContent;
+    
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(rawCode).then(() => {
+        copyButton.classList.add('copied');
+        setTimeout(() => copyButton.classList.remove('copied'), 2000);
+      });
+    } else {
+      // 降级方法
+      const textarea = document.createElement('textarea');
+      textarea.value = rawCode;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-999999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      
+      copyButton.classList.add('copied');
+      setTimeout(() => copyButton.classList.remove('copied'), 2000);
+    }
+  });
+  
+  copyContainer.appendChild(copyButton);
+  codeBlock.appendChild(copyContainer);
+}
 </script>
