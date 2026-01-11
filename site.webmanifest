@@ -1,0 +1,1 @@
+{ "name": "寒江雪的技术图谱", "short_name": "HJX Web", "start_url": ".", "display": "standalone", "background_color": "#ffffff", "theme_color": "#007bff", "icons": [ { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" } ] }
