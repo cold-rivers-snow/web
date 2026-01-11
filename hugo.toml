@@ -17,6 +17,8 @@ uglyURLs              = false
 [markup]
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.goldmark.extensions]
+    table = true # 默认是开启的
   [markup.highlight]
     noClasses = false  # Hextra 代码高亮需要此配置
 
