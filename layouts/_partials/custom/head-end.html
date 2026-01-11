@@ -150,4 +150,173 @@
     margin-bottom: 0.25rem;
   }
 }
+
+/* TOC 折叠功能样式 */
+.toc-content {
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.toc-content.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+}
+
+.toc-chevron {
+  transition: transform 0.2s ease-in-out;
+}
+
+.toc-chevron.rotated {
+  transform: rotate(-180deg);
+}
+
+.toc-toggle:hover {
+  color: #374151;
+}
+
+.dark .toc-toggle:hover {
+  color: #d1d5db;
+}
+
+/* TOC 子目录折叠功能样式 - 点击标题版本 */
+.toc-collapsible-link {
+  position: relative;
+  padding-right: 20px !important;
+  transition: all 0.2s ease;
+}
+
+.toc-collapsible-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding-left: 4px;
+  padding-right: 24px !important;
+}
+
+.dark .toc-collapsible-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.toc-section-chevron {
+  transition: transform 0.2s ease;
+  pointer-events: none; /* 防止箭头阻止点击事件 */
+}
+
+/* 为有子标题的链接添加视觉提示 */
+.toc-collapsible-link::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 0;
+  background-color: currentColor;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.toc-collapsible-link:hover::before {
+  height: 60%;
+  opacity: 0.3;
+}
 </style>
+
+<script>
+// 测试函数 - 确保JavaScript正常加载
+console.log('TOC JavaScript loaded successfully');
+
+// 处理TOC标题点击事件
+function handleTOCClick(event, link) {
+  console.log('handleTOCClick called', link);
+  
+  // 检查是否有子标题
+  const hasChildren = link.getAttribute('data-has-children') === 'true';
+  
+  if (hasChildren) {
+    // 阻止默认的锚点跳转行为
+    event.preventDefault();
+    
+    const section = link.closest('.toc-section');
+    if (!section) {
+      console.log('No section found');
+      return;
+    }
+    
+    const content = section.querySelector('.toc-section-content');
+    const chevron = link.querySelector('.toc-section-chevron');
+    
+    if (!content || !chevron) {
+      console.log('Content or chevron not found', content, chevron);
+      return;
+    }
+    
+    // 切换显示/隐藏
+    if (content.style.display === 'none') {
+      content.style.display = 'block';
+      chevron.style.transform = 'translateY(-50%) rotate(0deg)';
+      console.log('Showing content');
+    } else {
+      content.style.display = 'none';
+      chevron.style.transform = 'translateY(-50%) rotate(-180deg)';
+      console.log('Hiding content');
+    }
+    
+    // 保存状态
+    const sectionId = section.getAttribute('data-section-id');
+    if (sectionId) {
+      const isCollapsed = content.style.display === 'none';
+      const collapsedSections = JSON.parse(localStorage.getItem('tocCollapsedSections') || '{}');
+      collapsedSections[sectionId] = isCollapsed;
+      localStorage.setItem('tocCollapsedSections', JSON.stringify(collapsedSections));
+      console.log('Saved state for', sectionId, isCollapsed);
+    }
+  } else {
+    // 没有子标题，正常跳转到锚点
+    console.log('Normal anchor navigation');
+  }
+}
+
+// 页面加载时恢复状态
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, restoring TOC states');
+  
+  // 检查是否有TOC sections
+  const sections = document.querySelectorAll('.toc-section');
+  console.log('Found TOC sections:', sections.length);
+  
+  const collapsedSections = JSON.parse(localStorage.getItem('tocCollapsedSections') || '{}');
+  console.log('Collapsed sections from storage:', collapsedSections);
+  
+  sections.forEach(section => {
+    const sectionId = section.getAttribute('data-section-id');
+    const content = section.querySelector('.toc-section-content');
+    const chevron = section.querySelector('.toc-section-chevron');
+    
+    console.log('Processing section:', sectionId, content, chevron);
+    
+    if (sectionId && content && chevron && collapsedSections[sectionId]) {
+      content.style.display = 'none';
+      chevron.style.transform = 'translateY(-50%) rotate(-180deg)';
+      console.log('Restored collapsed state for', sectionId);
+    }
+  });
+});
+
+// 现有的滚动到顶部功能
+function scrollUp() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 滚动监听，显示/隐藏返回顶部按钮
+window.addEventListener('scroll', function() {
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    if (window.pageYOffset > 300) {
+      backToTop.style.opacity = '1';
+    } else {
+      backToTop.style.opacity = '0';
+    }
+  }
+});
+</script>

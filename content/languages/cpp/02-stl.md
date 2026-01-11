@@ -31,6 +31,10 @@ int main() {
 }
 ```
 
+#### pop_back()
+
+#### push_back()
+
 ### list
 双向链表，支持高效的插入和删除：
 
