@@ -90,9 +90,18 @@ uglyURLs              = false
 
   # 侧边栏宽度
   sidebarWidth = "16rem"
+
+  [params.math]
+    engine = "mathjax"
+
+  [params.page]
+    # full (100%), wide (90rem), normal (1280px)
+    width = "normal"
   
   # 自定义CSS
   [params.theme]
+    # light | dark | system
+    default = "system"
     displayToggle = true
   
   # 开启全站搜索 (Hextra 的搜索非常快)
@@ -118,8 +127,11 @@ uglyURLs              = false
   [params.footer]
     enable = true
     content = "Stay Hungry, Stay Foolish. | Powered by Hextra"
+    displayCopyright = true
+    displayPoweredBy = true
+    width = "normal"
 
   # 开启“在 GitHub 上编辑此页”功能
   [params.editURL]
-    enable = true
+    enable = false
     baseURL = "https://github.com/cold-rivers-snow/web/edit/main/content"
