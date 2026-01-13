@@ -1,5 +1,92 @@
 {{/* 自定义CSS和JavaScript */}}
 <style>
+/* 宽度切换功能样式 - 增强版 */
+/* 全宽状态 - 覆盖所有可能的宽度限制 */
+.page-width-full .hextra-max-page-width,
+.page-width-full .hextra-max-navbar-width,
+.page-width-full div[class*="hx:max-w-"],
+.page-width-full main[class*="hx:max-w-"],
+.page-width-full article,
+.page-width-full section,
+.page-width-full .hx\\:max-w-6xl,
+.page-width-full .hx\\:max-w-screen-xl,
+.page-width-full .hx\\:max-w-7xl,
+.page-width-full .hx\\:max-w-full {
+  max-width: none !important;
+}
+
+/* 使用属性选择器覆盖所有Tailwind max-width类 */
+.page-width-full [class*="max-w-"],
+.page-width-full [class*="hx:max-w-"] {
+  max-width: none !important;
+}
+
+/* 特别针对Hextra主题的容器 */
+.page-width-full .hextra-max-page-width,
+.page-width-full .hextra-max-navbar-width {
+  max-width: none !important;
+}
+
+/* 针对具体的页面布局容器 */
+.page-width-full div.hx\\:mx-auto,
+.page-width-full div.hx\\:flex.hx\\:flex-col,
+.page-width-full div.hx\\:w-full {
+  max-width: none !important;
+}
+
+/* 使用更通用的选择器 */
+.page-width-full > *,
+.page-width-full * {
+  max-width: none !important;
+}
+
+/* 但是保留一些元素的宽度限制 */
+.page-width-full img,
+.page-width-full video,
+.page-width-full iframe,
+.page-width-full .hextra-toc,
+.page-width-full .sidebar,
+.page-width-full button,
+.page-width-full input,
+.page-width-full select,
+.page-width-full textarea {
+  max-width: revert !important;
+}
+.page-width-full input,
+.page-width-full select,
+.page-width-full textarea {
+  max-width: revert !important;
+}
+
+/* 宽度切换按钮样式 */
+#width-switcher {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+#width-switcher:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
+}
+
+.dark #width-switcher:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 图标切换动画 */
+#width-switcher svg {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#width-switcher:hover svg {
+  transform: scale(1.1);
+}
+
+/* 页面宽度过渡动画 */
+* {
+  transition: max-width 0.3s ease-in-out;
+}
+
 /* 页脚样式优化 */
 .hextra-footer {
   margin-top: auto;
@@ -111,6 +198,7 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -361,6 +449,18 @@ function handleTOCClick(event, link) {
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM loaded, restoring TOC states and loading remote code');
   
+  // 恢复页面宽度设置
+  const savedWidth = localStorage.getItem('pageWidth') || 'normal';
+  const body = document.body;
+  
+  if (savedWidth === 'full') {
+    body.classList.add('page-width-full');
+    console.log('Restored full width');
+  } else {
+    body.classList.remove('page-width-full');
+    console.log('Restored normal width');
+  }
+  
   // TOC 状态恢复
   const sections = document.querySelectorAll('.toc-section');
   console.log('Found TOC sections:', sections.length);
@@ -391,6 +491,31 @@ document.addEventListener('DOMContentLoaded', function() {
     loadRemoteCodeContent(container);
   });
 });
+
+// 宽度切换功能 - 增强版
+function togglePageWidth() {
+  const body = document.body;
+  
+  if (body.classList.contains('page-width-full')) {
+    // 切换到正常宽度
+    body.classList.remove('page-width-full');
+    localStorage.setItem('pageWidth', 'normal');
+    console.log('Switched to normal width');
+  } else {
+    // 切换到全宽
+    body.classList.add('page-width-full');
+    localStorage.setItem('pageWidth', 'full');
+    console.log('Switched to full width');
+  }
+  
+  // 强制重新计算布局
+  document.body.style.display = 'none';
+  document.body.offsetHeight; // 触发重排
+  document.body.style.display = '';
+  
+  // 触发窗口resize事件，让其他组件重新计算尺寸
+  window.dispatchEvent(new Event('resize'));
+}
 
 // 现有的滚动到顶部功能
 function scrollUp() {
