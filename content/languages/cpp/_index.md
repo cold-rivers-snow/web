@@ -13,8 +13,9 @@ weight: 1
 
 ### 书籍
 
--《C++程序设计：面向对象的自然方法》
--《C++ 20 程序员指南：面向对象的自然方法》
+- 《C++程序设计：面向对象的自然方法》
+- 《C++ 20 程序员指南：面向对象的自然方法》
+- https://deitel.com/cpphtp11architecture
 
 ### 视频
 
@@ -23,4 +24,12 @@ weight: 1
 ### 网址
 
 - http://cplusplus.com
-- https://cppreference.com/ 
+- https://cppreference.com/
+- https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
+- https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/n4861.pdf
+- https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines.html
+- https://www.open-std.org
+
+### 相关第三方库
+
+- https://github.com/Microsoft/GSL
