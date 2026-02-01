@@ -1,0 +1,146 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>寒江雪的技术图谱 – 数据结构与算法</title><link>https://cold-rivers-snow.github.io/web/cs-basics/datastructure/</link><description>Recent content in 数据结构与算法 on 寒江雪的技术图谱</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><atom:link href="https://cold-rivers-snow.github.io/web/cs-basics/datastructure/index.xml" rel="self" type="application/rss+xml"/><item><title>数组（顺序存储）</title><link>https://cold-rivers-snow.github.io/web/cs-basics/datastructure/%E6%95%B0%E7%BB%84/</link><pubDate>Mon, 27 Oct 2025 15:04:14 +0800</pubDate><guid>https://cold-rivers-snow.github.io/web/cs-basics/datastructure/%E6%95%B0%E7%BB%84/</guid><description>
+&lt;p&gt;**数据结构本质上只有两种，一种叫数组，一种叫链表。**其他的都是它们俩的衍生。&lt;/p&gt;
+&lt;p&gt;**算法本质就是穷举。**花里胡哨的算法名称都只是名词而已，它们做的事情都本质都是穷举。&lt;/p&gt;
+&lt;p&gt;算法对数据的操作就是增删改查（CURD）
+时间复杂度：估算的是最坏的情况；是算法的执行效率，通常我们要去依靠循环次数和嵌套次数
+空间复杂度：使用的变量开辟的空间的情况（说白了，我们只关注我们在堆栈上新创建了哪些变量，不需要关注函数输入的变量）；是算法的内存消耗，通常我们要去依靠算法开辟的空间和数据结构&lt;/p&gt;
+&lt;h2&gt;静态数组&lt;span class="hx:absolute hx:-mt-20" id="静态数组"&gt;&lt;/span&gt;
+&lt;a href="#%e9%9d%99%e6%80%81%e6%95%b0%e7%bb%84" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;类似于&lt;/p&gt;
+&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
+&lt;div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class="hextra-code-copy-btn-container hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-0 hx:top-0"&gt;
+&lt;button
+class="hextra-code-copy-btn hx:group/copybtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50"
+title="复制代码"
+&gt;
+&lt;div class="hextra-copy-icon hx:group-[.copied]/copybtn:hidden hx:pointer-events-none hx:h-4 hx:w-4"&gt;&lt;/div&gt;
+&lt;div class="hextra-success-icon hx:hidden hx:group-[.copied]/copybtn:block hx:pointer-events-none hx:h-4 hx:w-4"&gt;&lt;/div&gt;
+&lt;/button&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;数组名 arr 是一个指针的首地址，开辟了一段 5 * sizeof(int) 长度这么大的地址，用于存储数据。一旦开辟了就不能顺序扩容，必现开辟一段更长的地址，通过数据搬迁的方式增加数据。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;增：
+&lt;ul&gt;
+&lt;li&gt;空间有空余的情况下
+&lt;ul&gt;
+&lt;li&gt;在末尾增加，时间复杂度为 O(1)&lt;/li&gt;
+&lt;li&gt;在中间（非末尾）增加，时间复杂度为 O(n)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;空间无空余的情况下（需要搬迁数据）
+&lt;ul&gt;
+&lt;li&gt;在末尾增加，时间复杂度为 O(n)&lt;/li&gt;
+&lt;li&gt;在中间（非末尾）增加，时间复杂度为 O(n)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;删：
+&lt;ul&gt;
+&lt;li&gt;在末尾删除，时间复杂度为 O(1)&lt;/li&gt;
+&lt;li&gt;在中间（非末尾）删除，时间复杂度为 O(n)，需要搬迁数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;查：给定指定索引，查询索引对应的元素的值，时间复杂度 O(1)O(1)。&lt;/li&gt;
+&lt;li&gt;改：给定指定索引，修改索引对应的元素的值，时间复杂度 O(1)O(1)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;动态数组&lt;span class="hx:absolute hx:-mt-20" id="动态数组"&gt;&lt;/span&gt;
+&lt;a href="#%e5%8a%a8%e6%80%81%e6%95%b0%e7%bb%84" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;动态数组底层还是静态数组，只是自动帮我们进行数组空间的扩缩容，并把增删查改操作进行了封装，让我们使用起来更方便而已。
+c++中就是 vector&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;自动扩缩容&lt;/li&gt;
+&lt;li&gt;索引越界的检查&lt;/li&gt;
+&lt;li&gt;删除元素谨防内存泄漏&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="remote-code-container hx:mt-6 hx:first:mt-0" data-url="https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/array.cpp" data-lang="cpp" data-title="动态数组" data-lines=""&gt;&lt;div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-t-lg border-b border-gray-200 dark:border-gray-700"&gt;
+&lt;div class="flex items-center justify-between"&gt;
+&lt;h4 class="text-sm font-medium text-gray-900 dark:text-gray-100"&gt;动态数组&lt;/h4&gt;
+&lt;a href="https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/array.cpp" target="_blank" rel="noopener noreferrer"
+class="text-xs text-blue-600 dark:text-blue-400 hover:underline"&gt;
+查看源文件 ↗
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="loading-state bg-blue-50 border border-blue-200 rounded-lg p-4 text-center"&gt;
+&lt;div class="flex items-center justify-center space-x-2 text-blue-800 mb-2"&gt;
+&lt;div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-800"&gt;&lt;/div&gt;
+&lt;span class="text-sm"&gt;正在加载代码...&lt;/span&gt;
+&lt;/div&gt;
+&lt;p class="text-blue-600 text-xs break-all"&gt;https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/array.cpp&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="error-state bg-red-50 border border-red-200 rounded-lg p-4 hidden"&gt;
+&lt;h3 class="text-red-800 font-semibold text-sm mb-2"&gt;❌ 加载失败&lt;/h3&gt;
+&lt;p class="error-message text-red-600 text-sm mb-2"&gt;&lt;/p&gt;
+&lt;p class="text-red-600 text-xs"&gt;请检查网络连接或URL是否正确&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="code-display hidden"&gt;
+&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
+&lt;div class="code-collapse-container hidden hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-12 hx:top-0 hx:z-10"&gt;
+&lt;button class="code-collapse-btn hx:group/collapsebtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50" title="展开代码"&gt;
+&lt;span class="expand-icon text-xs font-bold"&gt;展开&lt;/span&gt;
+&lt;span class="collapse-icon text-xs font-bold hidden"&gt;折叠&lt;/span&gt;
+&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="code-content-wrapper"&gt;
+&lt;div class="code-top-spacer" style="height: 45px; position: absolute; top: 0; left: 0; right: 0; z-index: 5; pointer-events: none;"&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;
+&lt;pre tabindex="0" class="chroma" style="padding-top: 45px;"&gt;
+&lt;code class="code-content" data-lang="cpp"&gt;&lt;/code&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;环形数组&lt;span class="hx:absolute hx:-mt-20" id="环形数组"&gt;&lt;/span&gt;
+&lt;a href="#%e7%8e%af%e5%bd%a2%e6%95%b0%e7%bb%84" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;数组就是一块线性连续的内存空间，这一点很重要。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;环形数组技巧利用求模（余数）运算，将普通数组变成逻辑上的环形数组，可以让我们用 O(1) 的时间在数组头部增删元素。&lt;/p&gt;
+&lt;p&gt;环形数组的关键在于，它维护了两个指针 start 和 end，start 指向第一个有效元素的索引，end 指向最后一个有效元素的下一个位置索引。&lt;/p&gt;
+&lt;p&gt;这样，当我们在数组头部添加或删除元素时，只需要移动 start 索引，而在数组尾部添加或删除元素时，只需要移动 end 索引。当 start, end 移动超出数组边界（&amp;lt; 0 或 &amp;gt;= arr.length）时，我们可以通过求模运算 % 让它们转一圈到数组头部或尾部继续工作，这样就实现了环形数组的效果。&lt;/p&gt;
+&lt;p&gt;[start, end) 区间。理论上，可以随意设计区间的开闭，但一般设计为左闭右开区间是最方便处理的。&lt;/p&gt;
+&lt;p&gt;如果设置为两端都开的区间，那么让 end 向右移动一位后开区间 (0, 1) 仍然没有元素；如果你设置为两端都闭的区间，那么初始区间 [0, 0] 就已经包含了一个元素。需要代码特殊处理，编码需要考虑边界问题。&lt;/p&gt;
+&lt;div class="remote-code-container hx:mt-6 hx:first:mt-0" data-url="https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/cycle_array.cpp" data-lang="cpp" data-title="环形数组" data-lines=""&gt;&lt;div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-t-lg border-b border-gray-200 dark:border-gray-700"&gt;
+&lt;div class="flex items-center justify-between"&gt;
+&lt;h4 class="text-sm font-medium text-gray-900 dark:text-gray-100"&gt;环形数组&lt;/h4&gt;
+&lt;a href="https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/cycle_array.cpp" target="_blank" rel="noopener noreferrer"
+class="text-xs text-blue-600 dark:text-blue-400 hover:underline"&gt;
+查看源文件 ↗
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="loading-state bg-blue-50 border border-blue-200 rounded-lg p-4 text-center"&gt;
+&lt;div class="flex items-center justify-center space-x-2 text-blue-800 mb-2"&gt;
+&lt;div class="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-800"&gt;&lt;/div&gt;
+&lt;span class="text-sm"&gt;正在加载代码...&lt;/span&gt;
+&lt;/div&gt;
+&lt;p class="text-blue-600 text-xs break-all"&gt;https://raw.githubusercontent.com/cold-rivers-snow/recipes/master/datastruct/cycle_array.cpp&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="error-state bg-red-50 border border-red-200 rounded-lg p-4 hidden"&gt;
+&lt;h3 class="text-red-800 font-semibold text-sm mb-2"&gt;❌ 加载失败&lt;/h3&gt;
+&lt;p class="error-message text-red-600 text-sm mb-2"&gt;&lt;/p&gt;
+&lt;p class="text-red-600 text-xs"&gt;请检查网络连接或URL是否正确&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="code-display hidden"&gt;
+&lt;div class="hextra-code-block hx:relative hx:mt-6 hx:first:mt-0 hx:group/code"&gt;
+&lt;div class="code-collapse-container hidden hx:opacity-0 hx:transition hx:group-hover/code:opacity-100 hx:flex hx:gap-1 hx:absolute hx:m-[11px] hx:right-12 hx:top-0 hx:z-10"&gt;
+&lt;button class="code-collapse-btn hx:group/collapsebtn hx:cursor-pointer hx:transition-all hx:active:opacity-50 hx:bg-primary-700/5 hx:border hx:border-black/5 hx:text-gray-600 hx:hover:text-gray-900 hx:rounded-md hx:p-1.5 hx:dark:bg-primary-300/10 hx:dark:border-white/10 hx:dark:text-gray-400 hx:dark:hover:text-gray-50" title="展开代码"&gt;
+&lt;span class="expand-icon text-xs font-bold"&gt;展开&lt;/span&gt;
+&lt;span class="collapse-icon text-xs font-bold hidden"&gt;折叠&lt;/span&gt;
+&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="code-content-wrapper"&gt;
+&lt;div class="code-top-spacer" style="height: 45px; position: absolute; top: 0; left: 0; right: 0; z-index: 5; pointer-events: none;"&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;
+&lt;pre tabindex="0" class="chroma" style="padding-top: 45px;"&gt;
+&lt;code class="code-content" data-lang="cpp"&gt;&lt;/code&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;位图&lt;span class="hx:absolute hx:-mt-20" id="位图"&gt;&lt;/span&gt;
+&lt;a href="#%e4%bd%8d%e5%9b%be" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;位图是一种节省空间的数据结构，用单个比特位（bit）的 0/1 标记元素是否存在。&lt;/p&gt;
+&lt;p&gt;通过 “1 比特对应 1 个元素状态” 的设计，极致压缩内存占用，比如存储 1000 个元素的存在状态，布尔数组需 1000 字节，位图仅需约 125 字节（1000/8）。&lt;/p&gt;
+&lt;h2&gt;Reference&lt;span class="hx:absolute hx:-mt-20" id="reference"&gt;&lt;/span&gt;
+&lt;a href="#reference" class="subheading-anchor" aria-label="Permalink for this section"&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;a href="https://labuladong.online/algo/data-structure-basic/cycle-array"target="_blank" rel="noopener"&gt;https://labuladong.online/algo/data-structure-basic/cycle-array&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://labuladong.online/algo/data-structure-basic/array-basic"target="_blank" rel="noopener"&gt;https://labuladong.online/algo/data-structure-basic/array-basic&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://labuladong.online/algo/essential-technique/array-two-pointers-summary/"target="_blank" rel="noopener"&gt;https://labuladong.online/algo/essential-technique/array-two-pointers-summary/&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
