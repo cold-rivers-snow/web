@@ -23,8 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+          submodules: recursive  # Force recursive submodules for complex themes
+          fetch-depth: 0         # Required for .GitInfo and .Lastmod
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -37,7 +37,9 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Build with Hugo
-        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        # Removed trailing slash from base_url to avoid double-slash issues
+        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}"
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
