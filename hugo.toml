@@ -94,6 +94,11 @@ uglyURLs              = false
 
 [params]
   description = "记录寒江雪的学习与成长"
+  
+  [params.author]
+    name = "寒江雪"
+    email = "cold-rivers-snow@example.com"
+
 
   # 侧边栏宽度
   sidebarWidth = "16rem"
