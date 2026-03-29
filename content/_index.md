@@ -41,6 +41,16 @@ layout: hextra-home
     link="https://cold-rivers-snow.github.io/"
   >}}
   {{< hextra/feature-card
+    title="工具"
+    subtitle="使用工具记录。"
+    link="/web/tools/"
+  >}}
+  {{< hextra/feature-card
+    title="架构"
+    subtitle="架构相关学习和实践记录。"
+    link="/web/architecture/"
+  >}}
+  {{< hextra/feature-card
     title="GitHub"
     subtitle="查看本项目源码，欢迎 Star 和贡献代码。"
     link="https://github.com/cold-rivers-snow/web"
